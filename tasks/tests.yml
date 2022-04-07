@@ -1,0 +1,31 @@
+---
+- name: Test containers running
+  assert:
+    that:
+      - "nginx_approuter.nginxapprouter_nginx_approuter_1.state.running"
+      - "nginx_approuter.nginxapprouter_nginx_approuter_1.state.status == 'running'"
+
+- name: Register container pid
+  shell: sudo docker inspect -f \{\{.State.Pid\}\} nginxapprouter_nginx_approuter_1
+  register: container_pid_1
+
+- name: Wait for 5 seconds to check is container restarting
+  pause:
+    seconds: 5
+
+- name: Register container state
+  shell: sudo docker inspect -f \{\{.State.Restarting\}\} nginxapprouter_nginx_approuter_1
+  register: is_container_restarting
+
+- name: Test container is not restarting
+  assert:
+    that:
+      - "is_container_restarting.stdout == 'false'"
+
+- name: register container pid to ensure that it wasn't changed
+  shell: sudo docker inspect -f \{\{.State.Pid\}\} nginxapprouter_nginx_approuter_1
+  register: container_pid_2
+
+- name: Check that pid wasn't changed
+  assert:
+    that: container_pid_1.stdout == container_pid_2.stdout

@@ -1,0 +1,5 @@
+---
+
+- name: Restart nginx-approuter
+  docker_service: project_src={{ nginx_approuter_compose_workdir }} restarted=yes
+

@@ -1,0 +1,6 @@
+---
+- include: certificates.yml
+- include: containers.yml
+- include: logrotate.yml
+- include: tests.yml
+  when: nginx_approuter_run_postdeploy_test and not ansible_check_mode

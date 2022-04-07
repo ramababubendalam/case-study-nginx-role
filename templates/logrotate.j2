@@ -1,0 +1,7 @@
+{{ nginx_approuter_log_folder }}/*.log {
+    compress
+    copytruncate
+    rotate {{ nginx_log_rotates }}
+    missingok
+    daily
+}

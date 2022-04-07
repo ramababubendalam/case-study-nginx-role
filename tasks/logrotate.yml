@@ -1,0 +1,3 @@
+---
+- name: Ensure logrotate config
+  template: src=logrotate.j2 dest=/etc/logrotate.d/app-router mode=0644

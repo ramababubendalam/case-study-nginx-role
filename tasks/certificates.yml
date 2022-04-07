@@ -1,0 +1,24 @@
+---
+- name: Ensure certificates root folder
+  file: 
+    state: directory 
+    recurse: yes 
+    path: "{{ nginx_approuter_certificates_root }}"
+
+- name: Ensure {{nginx_approuter_certificates_to_use}} certificate
+  copy: 
+    src: "files/{{ nginx_approuter_certificates_to_use }}.cer"
+    dest: "{{ anginx_approuter_certificates_root }}/ssl.cer"
+    owner: root
+    group: root
+    mode: 0400
+  notify: 'Restart nginx-approuter'
+
+- name: Ensure {{nginx_approuter_certificates_to_use}} certificate key
+  copy: 
+    src: "files/{{ nginx_approuter_certificates_to_use }}.key"
+    dest: "{{ nginx_approuter_certificates_root }}/ssl.key"
+    owner: root
+    group: root
+    mode: 0400
+  notify: 'Restart nginx-approuter'

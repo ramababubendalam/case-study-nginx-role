@@ -1,0 +1,29 @@
+version: '2'
+
+services:
+  nginx_approuter:
+    
+    image: "{{ nginx_approuter_image }}:{{ nginx_approuter_version }}"
+    restart: always
+    network_mode: bridge
+    ports:
+      - "{{ nginx_approuter_http_port }}:80"
+      - "{{ nginx_approuter_https_port }}:443"
+{% if nginx_stats_enabled %}
+      - "127.0.0.1:{{ nginx_stats_port }}:8088"
+{% endif %}
+    environment:
+      - PRE_CHECK_UPSTREAMS={{ nginx_approuter_pre_check_upstream }}
+      - SSL_CERTS_FOR_LIVE={{ nginx_approuter_enable_ssl_pages }}
+      - MAINTENANCE_MODE={{ nginx_approuter_maintainance_mode }}
+      - FRONTNODE_CLUSTER={{ nginx_approuter_frontend_cluster|join(',') }}
+      - GRAPHQL_CLUSTER={{ nginx_approuter_graphql_cluster|join(',') }}
+    volumes:
+      - "{{ nginx_approuter_ssl_location }}:{{ nginx_approuter_ssl_location }}"
+      - "{{ nginx_approuter_log_folder }}:/var/log/nginx"
+    mem_limit: {{ nginx_approuter_mem_limit }}
+    mem_reservation: {{ nginx_approuter_mem_reservation }}
+    stop_grace_period: 1m30s
+
+
+

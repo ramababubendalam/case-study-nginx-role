@@ -1,0 +1,10 @@
+---
+- name: Ensure working directory
+  file: state=directory recurse=yes path={{ nginx_approuter_compose_workdir }}
+
+- name: Ensure docker-compose.yml file
+  template: src=docker-compose.yml dest={{ nginx_approuter_compose_workdir }}/docker-compose.yml
+
+- name: Pull and Up containers
+  docker_service: project_src={{ nginx_approuter_compose_workdir }} pull=yes
+  

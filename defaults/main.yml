@@ -1,0 +1,35 @@
+---
+nginx_approuter_compose_workdir: /opt/nginx-approuter
+nginx_approuter_docker_template_name: docker-compose.yml
+nginx_approuter_certificates_root: /opt/nginx-approuter
+nginx_approuter_certificates_to_use: photbox_com
+nginx_approuter_http_port: 80
+nginx_approuter_https_port: 443
+nginx_approuter_version: latest
+nginx_approuter_image: docker.photbox.com/nginx/app-router
+nginx_approuter_mem_limit: 158m
+nginx_approuter_mem_reservation: 128m
+nginx_approuter_maintainance_mode: false
+nginx_approuter_run_postdeploy_test: false
+nginx_approuter_enable_ssl_pages: True
+nginx_approuter_access_control_allow_origin: 'https://test.photobox.com'
+nginx_approuter_pre_check_upstream: false
+
+
+nginx_approuter_frontend_cluster:
+  - localhost
+nginx_approuter_graphql_cluster:
+  - localhost
+
+nginx_approuter_ssl_location: "{{ nginx_approuter_certificates_root }}"
+
+
+nginx_approuter_log_folder: /var/log/nginx
+nginx_log_rotates: 31
+nginx_dns_resolver:
+  - 8.8.8.8
+  - 8.8.4.4
+  - 169.254.169.253
+
+
+
